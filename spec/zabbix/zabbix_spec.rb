@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-%w(zabbix-server-mysql zabbix-web-mysql zabbix-agent).each do |pkg|
+%w(zabbix-server-mysql zabbix-web-mysql zabbix-agent zabbix-get zabbix-web-japanese).each do |pkg|
   describe package(pkg) do
     it { should be_installed }
   end

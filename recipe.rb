@@ -12,7 +12,7 @@ end
 
 execute "yum clean all"
 
-%w(zabbix-server-mysql zabbix-web-mysql zabbix-agent mysql-community-devel mysql-community-server).each do |pkg|
+%w(zabbix-server-mysql zabbix-web-mysql zabbix-agent zabbix-get zabbix-web-japanese mysql-community-devel mysql-community-server).each do |pkg|
   package pkg do
     action :install
   end
