@@ -1,14 +1,32 @@
 require 'spec_helper'
 
-describe package('httpd'), :if => os[:family] == 'redhat' do
-  it { should be_installed }
+middleware_vars = {
+  packages: [
+    "httpd"
+  ],
+  processes: [
+    "httpd"
+  ],
+  ports: [
+    80
+  ]
+}
+
+middleware_vars[:packages].each do |pkg|
+  describe package(pkg) do
+    it { should be_installed }
+  end
 end
 
-describe service('httpd'), :if => os[:family] == 'redhat' do
-  it { should be_enabled }
-  it { should be_running }
+middleware_vars[:processes].each do |proc|
+  describe service(proc) do
+    it { should be_enabled }
+    it { should be_running }
+  end
 end
 
-describe port(80) do
-  it { should be_listening }
+middleware_vars[:ports].each do |port|
+  describe port(port) do
+    it { should be_listening }
+  end
 end

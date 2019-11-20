@@ -1,18 +1,37 @@
 require 'spec_helper'
 
-%w(zabbix-server-mysql zabbix-web-mysql zabbix-agent zabbix-get zabbix-web-japanese).each do |pkg|
+middleware_vars = {
+  packages: [
+    "zabbix-server-mysql",
+    "zabbix-web-mysql",
+    "zabbix-agent",
+    "zabbix-get",
+    "zabbix-web-japanese"
+  ],
+  processes: [
+    "zabbix-server",
+    "zabbix-agent"
+  ],
+  ports: [
+    10050
+  ]
+}
+
+middleware_vars[:packages].each do |pkg|
   describe package(pkg) do
     it { should be_installed }
   end
 end
 
-%w(zabbix-server zabbix-agent).each do |pkg|
-  describe service(pkg) do
+middleware_vars[:processes].each do |proc|
+  describe service(proc) do
     it { should be_enabled }
     it { should be_running }
   end
 end
 
-describe port(10050) do
-  it { should be_listening }
+middleware_vars[:ports].each do |port|
+  describe port(port) do
+    it { should be_listening }
+  end
 end

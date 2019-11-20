@@ -1,16 +1,33 @@
 require 'spec_helper'
 
-%w(mysql-community-devel mysql-community-server).each do |pkg|
+middleware_vars = {
+  packages: [
+    "mysql-community-devel",
+    "mysql-community-server"
+  ],
+  processes: [
+    "mysqld"
+  ],
+  ports: [
+    3306
+  ]
+}
+
+middleware_vars[:packages].each do |pkg|
   describe package(pkg) do
     it { should be_installed }
   end
 end
 
-describe service('mysqld') do
-  it { should be_enabled }
-  it { should be_running }
+middleware_vars[:processes].each do |proc|
+  describe service(proc) do
+    it { should be_enabled }
+    it { should be_running }
+  end
 end
 
-describe port(3306) do
-  it { should be_listening }
+middleware_vars[:ports].each do |port|
+  describe port(port) do
+    it { should be_listening }
+  end
 end

@@ -11,7 +11,20 @@ Vagrant.configure("2") do |config|
     
     server.vm.provision :itamae do |itamae|
       itamae.sudo = true
-      itamae.recipes = ['./recipe.rb']
+      itamae.recipes = ['./bootstrap.rb']
+      itamae.yaml = './nodes/zabbix.yml'
     end
+
+    # The following code doesen't work.
+    # Because activesuppor tequire Ruby 2.5 or higher.
+    # But Vagrant Ruby version is 2.4.9.
+    # Someone already reported this issue for them on GitHub.
+    # https://github.com/vvchik/vagrant-serverspec/issues/37
+
+    # server.vm.provision :serverspec do |spec|
+    #   spec.pattern = '*_spec.rb'
+    #   spec.error_no_spec_files = false
+    #   spec.html_output = true
+    # end
   end
 end
